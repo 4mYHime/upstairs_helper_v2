@@ -1,0 +1,39 @@
+{
+	"manifest_version": 2,
+	"name": "stock helper",
+	"version": "1.0",
+	"description": "a simple info of stock",
+	"background": {
+		"scripts": ["js/background.js"]
+	 },
+	"options_page": "popup.html",
+	"options_ui":
+	{
+		"page": "popup.html",
+		"chrome_style": true
+	},
+	"icons": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    },
+	"browser_action": {
+		"default_icon": {
+            "19": "images/icon19.png",
+            "38": "images/icon38.png"
+        },
+		"default_title": "stock helper",
+		"default_popup": "popup.html"
+	},
+	"offline_enabled": true,
+	"web_accessible_resources": [ "js/background.js" ],
+	"permissions": [
+        "https://core-api-prod.upstairs.io/orders*",
+		"notifications",
+		"storage",
+		"unlimitedStorage",
+		"alarms",
+		"background",
+		"idle"
+    ]
+}
