@@ -8,11 +8,17 @@ function loadTasks() {
 	return tasks
 }
 
-function refreshTasks(index) {
-	if (localStorage.upstairs_helper_tasks) {
-		var tasks = JSON.parse(localStorage.upstairs_helper_tasks)
-		tasks.pop(index)
-		localStorage.upstairs_helper_tasks = JSON.stringify(tasks)
+function updateTasks(tasks) {
+	localStorage.upstairs_helper_tasks =  JSON.stringify(tasks);
+}
+
+function refreshTasks(index, count) {
+	tasks = loadTasks()
+	if (tasks.length) {
+		// 从任务中去除该条记录
+		// tasks.pop(index)
+		tasks[index].count = count
+		updateTasks(tasks)
 	}
 }
 
@@ -28,7 +34,11 @@ function checkTasksRuning() {
 function startTasks() {
 	if (!checkTasksRuning()) {
 		localStorage.upstairs_helper_running_code = setInterval(function() {
-			httpRequest(checkResult);
+			try {
+				httpRequest(checkResult);
+			} catch (error) {
+				console.log(error)
+			}
 		}, 5000);
 		
 	}
@@ -105,8 +115,7 @@ function checkResult(result, index) {
 		var response = JSON.parse(result)
 		if (response.list.length > 0) {
 			notify("查询到满足条件的出售单！");
-			// 去除该任务
-			refreshTasks(index)
+			refreshTasks(index, response.list.length)
 		}
 	} catch (error) {}
 }
